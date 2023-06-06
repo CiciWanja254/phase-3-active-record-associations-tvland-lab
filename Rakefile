@@ -9,3 +9,21 @@ task :console do
   # Open a Pry session
   Pry.start
 end
+
+
+describe "#characters" do
+  it "returns the characters associated with the show" do
+    simpsons = Show.create(name: "The Simpsons")
+    Character.create(name: "Ralph Wiggum", show_id: simpsons.id)
+    Character.create(name: "Homer Simpson", show_id: simpsons.id)
+    Character.create(name: "Apu Nahasapeemapetilon", show_id: simpsons.id)
+    expect(simpsons.characters.count).to eq(3)
+  end
+
+  it "can be used to build its characters" do
+    show = Show.create(name: "Happy Endings")
+    show.characters.build(name: "Penny")
+    show.save
+    expect(show.characters.count).to eq(1)
+  end
+end
